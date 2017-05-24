@@ -125,9 +125,9 @@ class KMeans(object):
     def optimize(self, threshold, iterbound = 100):
        
        
-       self.loglikelyhood = self.computeQ()
+       self.loglikelihood = self.computeQ()
        
-       print "Starting KMeans... Initial loglikelyhood: {}".format(self.loglikelyhood)
+       print "Starting KMeans... Initial loglikelihood: {}".format(self.loglikelihood)
        
        step_cnt = 1
        while True:
@@ -141,25 +141,25 @@ class KMeans(object):
            
            self.optimize_step()           
            
-           loglikelyhood = self.computeQ()
+           loglikelihood = self.computeQ()
                       
            if not self.STRICT_INCREASE_FLAG:
-               likelyhood_diff = np.abs(loglikelyhood - self.loglikelyhood)
+               likelihood_diff = np.abs(loglikelihood - self.loglikelihood)
            else:
-               likelyhood_diff = loglikelyhood - self.loglikelyhood
-               assert likelyhood_diff > -1.e-10, 'Likelihood decrease!! : {}'.format(likelyhood_diff)
+               likelihood_diff = loglikelihood - self.loglikelihood
+               assert likelihood_diff > -1.e-10, 'Likelihood decrease!! : {}'.format(likelihood_diff)
                
-           self.loglikelyhood = loglikelyhood
+           self.loglikelihood = loglikelihood
                       
-           print "Step {}: loglikelyhood: {}, ({}), time {:.2f}".format(
+           print "Step {}: loglikelihood: {}, ({}), time {:.2f}".format(
                                         step_cnt,
-                                        self.loglikelyhood,
-                                        likelyhood_diff,
+                                        self.loglikelihood,
+                                        likelihood_diff,
                                         time()-t0
                                         )
            step_cnt += 1
            
-           if (threshold != None) and (likelyhood_diff < threshold):
+           if (threshold != None) and (likelihood_diff < threshold):
                print "Threshold reached." 
                break
            
@@ -419,7 +419,7 @@ def der_graph_clustering(G, TM,
     
     alg.optimize(alg_threshold,iterbound = alg_iterbound)
                     
-    print "The likelihood is {}".format(alg.loglikelyhood)
+    print "The likelihood is {}".format(alg.loglikelihood)
 
     communities = MN.get_communities(alg.params,data)    
     
